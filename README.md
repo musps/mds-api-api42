@@ -1,5 +1,8 @@
 # MDS API 42
 
+API Documentation : 
+https://api4210.docs.apiary.io/#
+
 * Default server port : `3031`
 * Default uri : `http://localhost:3031`
 
