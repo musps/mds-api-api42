@@ -140,7 +140,7 @@ API 42 is a simple API allowing User CRUD actions.
         "data": null
 }
 
-## 404 Request Not Found [/]
+## Errors [/]
 
 ### 404 Request not found [GET /random-uri]
 
@@ -148,5 +148,14 @@ API 42 is a simple API allowing User CRUD actions.
 {
         "status": 404,
         "message": "404 request not found",
+        "data": null
+}
+
+### 505 Server error [GET /]
+
++ Response 404 (application/json)
+{
+        "status": 500,
+        "message": "500 Server error",
         "data": null
 }
