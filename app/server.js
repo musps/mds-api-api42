@@ -50,7 +50,6 @@ app.use(bodyParser.urlencoded({
 app.use(helmet())
 
 app.use(function(req, res, next) {
-  console.log('new route called')
   if (config.mongodb.isConnected) {
     return next()
   } else {
