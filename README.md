@@ -18,7 +18,7 @@ npm run startmongo
 ## Install & Run 
 
 ```
-npm run builld
+npm run build
 
 ```
 
