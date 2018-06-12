@@ -5,7 +5,7 @@
   "scripts": {
     "startmongo": "mongod --port 3032 --dbpath '.database'",
     "build": "yarn install && node index.js",
-    "start": "yarn start",
+    "start": "node index.js",
     "test": "mocha"
   },
   "devDependencies": {

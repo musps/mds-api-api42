@@ -5,6 +5,8 @@ const should = chai.should()
 
 chai.use(chaiHttp)
 
+let userId = ''
+
 describe('#user', () => {
   describe('/POST /user/create', () => {
     it('should create a new user', (done) => {
@@ -19,6 +21,7 @@ describe('#user', () => {
         .send(userObj)
         .end((err, res) => {
           res.should.have.status(200)
+          userId = res.body.data._id
           done()
         })
     })
@@ -26,13 +29,11 @@ describe('#user', () => {
 
   describe('/GET /user/read/:id', () => {
     it('should read user data by id', (done) => {
-      const userId = 1
-
       chai.request(server)
         .get(`/user/read/${userId}`)
         .end((err, res) => {
           res.should.have.status(200)
-          chai.expect(res.body.data.id).to.equal(userId)
+          chai.expect(res.body.data._id).to.equal(userId)
           done()
         })
     })
@@ -40,7 +41,6 @@ describe('#user', () => {
 
   describe('/PUT /user/update/:id', () => {
     it('should update user data by id', (done) => {
-      const userId = 1
       const userObj = {
         'name': 'root',
         'age': 10,
@@ -59,8 +59,6 @@ describe('#user', () => {
 
   describe('/DELETE /user/delete/:id', () => {
     it('should delete user by id', (done) => {
-      const userId = 1
-
       chai.request(server)
         .delete(`/user/delete/${userId}`)
         .end((err, res) => {

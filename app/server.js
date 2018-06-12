@@ -6,6 +6,7 @@ const helmet = require('helmet')
 const routes = require('./routes')
 const app = express()
 const UserModel = require('./models/UserModel')
+const {requestServerError} = require('./utils')
 
 const config = {
   'server': {
@@ -13,15 +14,15 @@ const config = {
     'port': 3031
   },
   'mongodb': {
+    'isConnected': false,
     'uri': 'localhost',
     'port': 3032,
     'database': 'api42'
   }
 }
-
 mongoose.connect(`mongodb://${config.mongodb.uri}:${config.mongodb.port}/${config.mongodb.database}`)
-mongoose.connection.on('connected', () => {
-  console.log('Mongoose default connection opened')
+.then(() => {
+  config.mongodb.isConnected = true
 })
 
 app.use(bodyParser.json())
@@ -29,6 +30,15 @@ app.use(bodyParser.urlencoded({
   extended: true
 }))
 app.use(helmet())
+
+app.use(function(req, res, next) {
+  if (config.mongodb.isConnected) {
+    return next()
+  } else {
+    return requestServerError(req, res)
+  }
+})
+
 app.disable('x-powered-by')
 
 routes.config(app)

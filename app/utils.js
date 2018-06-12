@@ -14,6 +14,10 @@ const requestNotFound = (req, res) => {
   returnResponse(res, 404, '404 request not found')
 }
 
+const requestServerError = (req, res) => {
+  returnResponse(res, 500, '500 Server error')
+}
+
 const isUserJson = (data) => {
   return (typeof data.name !== 'undefined'
     && typeof data.age !== 'undefined'
@@ -26,5 +30,6 @@ const isUserJson = (data) => {
 module.exports = {
   returnResponse,
   requestNotFound,
-  isUserJson
+  isUserJson,
+  requestServerError
 }
