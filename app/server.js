@@ -22,10 +22,7 @@ const config = {
 }
 
 const mongooseConnect = () => {
-  mongoose.connect(
-    `mongodb://${config.mongodb.uri}:${config.mongodb.port}/${config.mongodb.database}`,
-    config.mongoose
-  )
+  mongoose.connect(`mongodb://${config.mongodb.uri}:${config.mongodb.port}/${config.mongodb.database}`)
   .catch(err => {
     setTimeout(() => {
       mongooseConnect()
