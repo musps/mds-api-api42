@@ -20,10 +20,28 @@ const config = {
     'database': 'api42'
   }
 }
-mongoose.connect(`mongodb://${config.mongodb.uri}:${config.mongodb.port}/${config.mongodb.database}`)
-.then(() => {
+
+const mongooseConnect = () => {
+  mongoose.connect(
+    `mongodb://${config.mongodb.uri}:${config.mongodb.port}/${config.mongodb.database}`,
+    config.mongoose
+  )
+  .catch(err => {
+    setTimeout(() => {
+      mongooseConnect()
+    }, 1000)
+  })
+}
+
+mongoose.connection.on('connected', () => {
   config.mongodb.isConnected = true
 })
+
+mongoose.connection.on('disconnected', () => {
+  config.mongodb.isConnected = false
+})
+
+mongooseConnect()
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({
@@ -32,6 +50,7 @@ app.use(bodyParser.urlencoded({
 app.use(helmet())
 
 app.use(function(req, res, next) {
+  console.log('new route called')
   if (config.mongodb.isConnected) {
     return next()
   } else {
